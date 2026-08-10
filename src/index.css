@@ -1,5 +1,68 @@
 @import "tailwindcss";
 
+@theme {
+  --color-paper: #D8C7A4;
+  --color-coal: #211C19;
+  --color-walnut: #49362B;
+  --color-rose-dark: #7B3038;
+  --color-brass: #A47C48;
+  --color-ink: #302822;
+  --color-muted: #796A5B;
+  --color-ivory: #EFE3C9;
+}
+
+body {
+  background-color: #211C19;
+  color: #302822;
+  font-family: 'Noto Serif SC', 'EB Garamond', serif;
+  min-height: 100vh;
+}
+
+/* 旧纸纹理覆盖层 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+/* 暗角效果 */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(33, 28, 25, 0.4) 100%);
+}
+
+/* 动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 卡片入场动画 */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-enter {
+  animation: fadeSlideUp 400ms ease-out forwards;
+}
+
 body {
   background: linear-gradient(180deg, #e0f7fa 0%, #f0faff 100%);
   min-height: 100vh;
