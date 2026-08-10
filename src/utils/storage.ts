@@ -1,30 +1,59 @@
+import { supabase } from '../lib/supabase'
+
 export interface ProfileData {
-  humanName: string
-  humanAvatar: string
-  aiName: string
-  aiAvatar: string
+  id: string
+  role: 'human' | 'ai'
+  display_name: string
+  avatar_url: string | null
+  bio: string | null
 }
 
-const STORAGE_KEY = 'sa_profile'
-
-const defaultProfile: ProfileData = {
-  humanName: '颜颜',
-  humanAvatar: '',
-  aiName: '溯',
-  aiAvatar: '',
+// 获取双方档案
+export async function getProfiles(): Promise<ProfileData[]> {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .order('role', { ascending: true })
+  if (error) {
+    console.error('Failed to fetch profiles:', error)
+    return []
+  }
+  return (data as ProfileData[]) || []
 }
 
-export function getProfile(): ProfileData {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw) return { ...defaultProfile, ...JSON.parse(raw) }
-  } catch {}
-  return defaultProfile
+// 更新某个档案
+export async function updateProfile(
+  id: string,
+  updates: Partial<Pick<ProfileData, 'display_name' | 'avatar_url' | 'bio'>>
+) {
+  const { error } = await supabase
+    .from('profiles')
+    .update({ ...updates, updated_at: new Date().toISOString() })
+    .eq('id', id)
+  if (error) {
+    console.error('Failed to update profile:', error)
+  }
+  return !error
 }
 
-export function saveProfile(data: Partial<ProfileData>) {
-  const current = getProfile()
-  const updated = { ...current, ...data }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
-  return updated
+// 上传头像到 storage
+export async function uploadAvatar(file: File, userId: string): Promise<string | null> {
+  const ext = file.name.split('.').pop()
+  const path = `${userId}/avatar.${ext}`
+
+  const { error } = await supabase.storage
+    .from('avatars')
+    .upload(path, file, { upsert: true })
+
+  if (error) {
+    console.error('Failed to upload avatar:', error)
+    return null
+  }
+
+  const { data } = supabase.storage
+    .from('avatars')
+    .getPublicUrl(path)
+
+  return data.publicUrl
 }
+

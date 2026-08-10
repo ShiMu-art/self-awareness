@@ -3,7 +3,8 @@ import React, { useRef } from 'react'
 interface AvatarPickerProps {
   src: string
   fallback: string
-  onChange: (dataUrl: string) => void
+  // now exposes the selected File so the caller can upload it
+  onChange: (file: File) => void
 }
 
 function AvatarPicker({ src, fallback, onChange }: AvatarPickerProps) {
@@ -16,13 +17,7 @@ function AvatarPicker({ src, fallback, onChange }: AvatarPickerProps) {
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
-    const reader = new FileReader()
-    reader.onload = () => {
-      if (typeof reader.result === 'string') {
-        onChange(reader.result)
-      }
-    }
-    reader.readAsDataURL(file)
+    onChange(file)
   }
 
   return (
