@@ -11,28 +11,30 @@ const navItems = [
 
 function Layout() {
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur border-b border-gray-800">
-        <div className="max-w-5xl mx-auto flex items-center gap-1 px-4 h-14 overflow-x-auto">
-          <span className="font-bold text-lg mr-4 shrink-0">Self Awareness</span>
+    <div className="min-h-screen text-gray-700">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-md border-b border-sky-100 shadow-sm">
+        <div className="text-center py-3">
+          <h1 className="text-xl font-bold text-sky-700 tracking-wide">Self Awareness</h1>
+        </div>
+        <nav className="flex justify-center gap-1 pb-2 px-4 overflow-x-auto">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `px-3 py-1.5 rounded-md text-sm shrink-0 transition ${
+                `px-3 py-1.5 rounded-full text-sm transition ${
                   isActive
-                    ? 'bg-white/10 text-white font-medium'
-                    : 'text-gray-400 hover:text-white'
+                    ? 'bg-sky-100 text-sky-700 font-medium'
+                    : 'text-sky-500 hover:text-sky-700'
                 }`
               }
             >
               {item.label}
             </NavLink>
           ))}
-        </div>
-      </nav>
-      <main className="pt-16 px-4 max-w-5xl mx-auto">
+        </nav>
+      </header>
+      <main className="pt-28 px-4 max-w-5xl mx-auto">
         <Outlet />
       </main>
     </div>
