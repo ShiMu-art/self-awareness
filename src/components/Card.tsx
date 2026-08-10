@@ -1,22 +1,23 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 interface CardProps {
   title?: string
   subtitle?: string
   children: ReactNode
+  className?: string
   delay?: number
 }
 
-function Card({ title, subtitle, children, delay }: CardProps) {
+function Card({ title, subtitle, children, className = '', delay = 0 }: CardProps) {
   return (
     <div
-      className="card-enter relative p-6 border shadow-md"
+      className={`card-enter relative p-6 border shadow-md ${className}`}
       style={{
         backgroundColor: '#D8C7A4',
         borderColor: '#A47C48',
         borderWidth: '1px',
         boxShadow: '2px 3px 8px rgba(33, 28, 25, 0.2)',
-        animationDelay: delay ? `${delay}ms` : undefined,
+        animationDelay: `${delay}ms`,
       }}
     >
       {/* 左上角花 */}
