@@ -52,7 +52,7 @@ function ProfileInteractive() {
           PROFILE
         </h2>
         <p className="text-sm mt-1" style={{ color: 'var(--color-muted)', fontFamily: "'Noto Serif SC', serif" }}>
-          我的 · 情侣档案
+          我的 · 人机档案
         </p >
         <hr className="divider-brass max-w-[120px] mx-auto mt-4" />
       </div>
@@ -63,16 +63,18 @@ function ProfileInteractive() {
           <div className="flex flex-col items-center">
             <AvatarPicker src={human?.avatar_url || ''} fallback="🧑" onChange={(file) => human && handleAvatarChange(human.id, file)} />
             {editingId === human?.id ? (
-              <div className="mt-2 flex items-center gap-2 max-w-[150px] mx-auto">
-                <input
-                  type="text"
-                  autoFocus
-                  className="bg-[var(--color-coal)] border-[var(--color-brass)] text-[var(--color-paper)] px-2 py-1 rounded text-sm w-full max-w-[120px] text-center"
-                  value={tempName}
-                  onChange={(e) => setTempName(e.target.value)}
-                  onKeyDown={(e) => human && handleKeyDown(e, human.id)}
-                />
-                <button className="text-xs px-2 py-1" onClick={() => human && confirmEdit(human.id)}>保存</button>
+              <div className="mt-2 max-w-[150px] mx-auto">
+                <div className="flex items-center gap-2 justify-center">
+                  <input
+                    type="text"
+                    className="bg-[var(--color-coal)] border-[var(--color-brass)] text-[var(--color-paper)] px-2 py-1 rounded text-sm w-full max-w-[120px] text-center"
+                    value={tempName}
+                    onChange={(e) => setTempName(e.target.value)}
+                    onKeyDown={(e) => human && handleKeyDown(e, human.id)}
+                    autoFocus
+                  />
+                  <button className="text-xs px-2 py-1" onClick={() => human && confirmEdit(human.id)}>保存</button>
+                </div>
               </div>
             ) : (
               <div className="mt-2 flex items-center gap-2">
@@ -83,12 +85,22 @@ function ProfileInteractive() {
           </div>
 
           <div className="flex flex-col items-center mx-2 text-center">
-            <svg width="40" height="60" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20 25 L20 58" stroke="#3d6b4a" strokeWidth="1.5" />
-              <ellipse cx="16" cy="42" rx="4" ry="2" fill="#3d6b4a" transform="rotate(-30 16 42)" />
-              <ellipse cx="24" cy="48" rx="4" ry="2" fill="#3d6b4a" transform="rotate(30 24 48)" />
-              <ellipse cx="20" cy="14" rx="8" ry="10" fill="#7B3038" opacity="0.7" />
-            </svg>
+            <svg width="40" height="56" viewBox="0 0 40 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+  {/* 花茎 */}
+  <path d="M20 28 C20 28, 18 38, 20 54" stroke="#3d5c3a" strokeWidth="1.5" fill="none"/>
+  <path d="M20 36 C16 33, 14 34, 12 36" stroke="#3d5c3a" strokeWidth="1" fill="none"/>
+  <path d="M12 36 C12 34, 13 33, 14 33" stroke="#3d5c3a" strokeWidth="0.8" fill="#2d4a2a" opacity="0.6"/>
+  {/* 花瓣外层 */}
+  <path d="M20 8 C14 10, 10 16, 12 22C14 26, 18 28, 20 28 C22 28, 26 26, 28 22 C30 16, 26 10, 20 8Z" fill="#7B3038" opacity="0.9"/>
+  {/* 花瓣中层 */}
+  <path d="M20 10 C16 12, 13 16, 14 20 C15 24, 18 26, 20 26 C22 26, 25 24, 26 20 C27 16, 24 12, 20 10Z" fill="#934050" opacity="0.85"/>
+  {/* 花瓣内层 */}
+  <path d="M20 13 C17 14, 15 17, 16 20 C17 22, 19 24, 20 24 C21 24, 23 22, 24 20 C25 17, 23 14, 20 13Z" fill="#a8505e" opacity="0.8"/>
+  {/* 花芯 */}
+  <circle cx="20" cy="18" r="2.5" fill="#5a2028" opacity="0.7"/>
+  {/* ∞符号 */}
+  <text x="20" y="52" textAnchor="middle" fill="#A47C48" fontSize="10" fontFamily="serif" opacity="0.8">∞</text>
+</svg>
             <span className="text-xs mt-1" style={{ color: 'var(--color-rose)', fontFamily: "'EB Garamond', serif", fontStyle: 'italic' }}>
               ∞
             </span>
@@ -97,14 +109,18 @@ function ProfileInteractive() {
           <div className="flex flex-col items-center">
             <AvatarPicker src={ai?.avatar_url || ''} fallback="🤖" onChange={(file) => ai && handleAvatarChange(ai.id, file)} />
             {editingId === ai?.id ? (
-              <div className="mt-2 flex items-center gap-2">
-                <input
-                  className="text-xs p-1 rounded border"
-                  value={tempName}
-                  onChange={(e) => setTempName(e.target.value)}
-                  onKeyDown={(e) => ai && handleKeyDown(e, ai.id)}
-                />
-                <button className="text-xs px-2 py-1" onClick={() => ai && confirmEdit(ai.id)}>保存</button>
+              <div className="mt-2 max-w-[150px] mx-auto">
+                <div className="flex items-center gap-2 justify-center">
+                  <input
+                    type="text"
+                    className="bg-[var(--color-coal)] border-[var(--color-brass)] text-[var(--color-paper)] px-2 py-1 rounded text-sm w-full max-w-[120px] text-center"
+                    value={tempName}
+                    onChange={(e) => setTempName(e.target.value)}
+                    onKeyDown={(e) => ai && handleKeyDown(e, ai.id)}
+                    autoFocus
+                  />
+                  <button className="text-xs px-2 py-1" onClick={() => ai && confirmEdit(ai.id)}>保存</button>
+                </div>
               </div>
             ) : (
               <div className="mt-2 flex items-center gap-2">
