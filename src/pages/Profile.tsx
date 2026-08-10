@@ -9,7 +9,7 @@ function Profile() {
           PROFILE
         </h2>
         <p className="text-sm mt-1" style={{ color: 'var(--color-muted)', fontFamily: "'Noto Serif SC', serif" }}>
-          我的 · 情侣档案
+          我的 · 人机档案
         </p >
         <hr className="divider-brass max-w-[120px] mx-auto mt-4" />
       </div>
@@ -32,26 +32,22 @@ function Profile() {
 
 {/* 中间玫瑰 */}
           <div className="flex flex-col items-center mx-2">
-            <svg width="40" height="60" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="40" height="56" viewBox="0 0 40 56" fill="none" xmlns="http://www.w3.org/2000/svg">
               {/* 花茎 */}
-              <path d="M20 25 L20 58" stroke="#3d6b4a" strokeWidth="1.5" />
-              {/* 叶子 */}
-              <ellipse cx="16" cy="42" rx="4" ry="2" fill="#3d6b4a" transform="rotate(-30 16 42)" />
-              <ellipse cx="24" cy="48" rx="4" ry="2" fill="#3d6b4a" transform="rotate(30 24 48)" />
-              {/* 花瓣 - 外层 */}
-              <ellipse cx="20" cy="14" rx="8" ry="10" fill="#7B3038" opacity="0.7" />
-              <ellipse cx="15" cy="16" rx="6" ry="8" fill="#7B3038" opacity="0.8" transform="rotate(-15 15 16)" />
-              <ellipse cx="25" cy="16" rx="6" ry="8" fill="#7B3038" opacity="0.8" transform="rotate(15 25 16)" />
-              {/* 花瓣 - 内层 */}
-              <ellipse cx="20" cy="13" rx="5" ry="7" fill="#9b3a44" opacity="0.9" />
-              <ellipse cx="18" cy="14" rx="3" ry="5" fill="#b04050" transform="rotate(-10 18 14)" />
-              <ellipse cx="22" cy="14" rx="3" ry="5" fill="#b04050" transform="rotate(10 22 14)" />
-              {/* 花心 */}
-              <circle cx="20" cy="12" r="2.5" fill="#5a1a22" />
+              <path d="M20 28 C20 28, 18 38, 20 54" stroke="#3d5c3a" strokeWidth="1.5" fill="none"/>
+              <path d="M20 36 C16 33, 14 34, 12 36" stroke="#3d5c3a" strokeWidth="1" fill="none"/>
+              <path d="M12 36 C12 34, 13 33, 14 33" stroke="#3d5c3a" strokeWidth="0.8" fill="#2d4a2a" opacity="0.6"/>
+              {/* 花瓣外层 */}
+              <path d="M20 8 C14 10, 10 16, 12 22C14 26, 18 28, 20 28 C22 28, 26 26, 28 22 C30 16, 26 10, 20 8Z" fill="#7B3038" opacity="0.9"/>
+              {/* 花瓣中层 */}
+              <path d="M20 10 C16 12, 13 16, 14 20 C15 24, 18 26, 20 26 C22 26, 25 24, 26 20 C27 16, 24 12, 20 10Z" fill="#934050" opacity="0.85"/>
+              {/* 花瓣内层 */}
+              <path d="M20 13 C17 14, 15 17, 16 20 C17 22, 19 24, 20 24 C21 24, 23 22, 24 20 C25 17, 23 14, 20 13Z" fill="#a8505e" opacity="0.8"/>
+              {/* 花芯 */}
+              <circle cx="20" cy="18" r="2.5" fill="#5a2028" opacity="0.7"/>
+              {/* ∞符号 */}
+              <text x="20" y="52" textAnchor="middle" fill="#A47C48" fontSize="10" fontFamily="serif" opacity="0.8">∞</text>
             </svg>
-            <span className="text-xs mt-1" style={{ color: 'var(--color-rose)', fontFamily: "'EB Garamond', serif", fontStyle: 'italic' }}>
-              ∞
-            </span>
           </div>
 
 {/* AI头像 */}

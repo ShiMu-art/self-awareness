@@ -63,9 +63,11 @@ function Profile() {
           <div className="flex flex-col items-center">
             <AvatarPicker src={human?.avatar_url || ''} fallback="🧑" onChange={(file) => human && handleAvatarChange(human.id, file)} />
             {editingId === human?.id ? (
-              <div className="mt-2 flex items-center gap-2">
+              <div className="mt-2 flex items-center gap-2 max-w-[150px] mx-auto">
                 <input
-                  className="text-xs p-1 rounded border"
+                  type="text"
+                  autoFocus
+                  className="bg-[var(--color-coal)] border-[var(--color-brass)] text-[var(--color-paper)] px-2 py-1 rounded text-sm w-full max-w-[120px] text-center"
                   value={tempName}
                   onChange={(e) => setTempName(e.target.value)}
                   onKeyDown={(e) => human && handleKeyDown(e, human.id)}

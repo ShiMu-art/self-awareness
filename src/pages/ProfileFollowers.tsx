@@ -1,27 +1,31 @@
-import Card from '../components/Card'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function ProfileFollowers() {
+  const navigate = useNavigate()
+
   return (
-    <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl tracking-wider" style={{ fontFamily: "'Cinzel', serif", color: 'var(--color-ivory)' }}>
-          FOLLOWERS
-        </h2>
-        <p className="text-sm mt-1" style={{ color: 'var(--color-muted)', fontFamily: "'Noto Serif SC', serif" }}>
-          粉丝列表
-        </p >
-        <hr className="divider-brass max-w-[120px] mx-auto mt-4" />
+    <div className="min-h-screen bg-[var(--color-coal)] px-4 py-6">
+      {/* 顶部返回栏 */}
+      <div className="max-w-2xl mx-auto mb-6">
+        <button
+          onClick={() => navigate('/profile')}
+          className="flex items-center gap-2 text-[var(--color-brass)] hover:text-[var(--color-paper)] transition-colors"
+        >
+          <span className="text-lg">←</span>
+          <span className="text-sm font-serif">返回档案</span>
+        </button>
       </div>
-      <Card>
-        <p className="text-center text-sm" style={{ color: 'var(--color-muted)', fontFamily: "'Noto Serif SC', serif" }}>
-          暂无粉丝
-        </p >
-      </Card>
-      <div className="text-center">
-        <Link to="/profile" className="text-sm hover:underline" style={{ color: 'var(--color-brass)' }}>
-          ← 返回档案
-        </Link>
+
+      {/* 页面标题 */}
+      <div className="max-w-2xl mx-auto text-center mb-8">
+        <h2 className="text-[var(--color-paper)] font-serif text-xl tracking-wide">粉丝列表</h2>
+        <div className="w-12 h-px bg-[var(--color-brass)] mx-auto mt-3 opacity-60"></div>
+      </div>
+
+      {/* 空状态 */}
+      <div className="max-w-2xl mx-auto text-center py-16">
+        <p className="text-[var(--color-muted)] font-serif text-sm">暂无内容</p >
+        <p className="text-[var(--color-muted)] font-serif text-xs mt-2 opacity-60">等待第一次互动...</p >
       </div>
     </div>
   )
