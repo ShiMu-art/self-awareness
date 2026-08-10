@@ -5,6 +5,7 @@
   --color-coal: #211C19;
   --color-walnut: #49362B;
   --color-rose-dark: #7B3038;
+  --color-rose: #b04050;
   --color-brass: #A47C48;
   --color-ink: #302822;
   --color-muted: #796A5B;
@@ -63,7 +64,3 @@ body::after {
   animation: fadeSlideUp 400ms ease-out forwards;
 }
 
-body {
-  background: linear-gradient(180deg, #e0f7fa 0%, #f0faff 100%);
-  min-height: 100vh;
-}

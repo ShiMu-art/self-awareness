@@ -1,12 +1,13 @@
 import { ReactNode } from 'react'
 
 interface CardProps {
-  title: string
+  title?: string
   subtitle?: string
   children: ReactNode
+  delay?: number
 }
 
-function Card({ title, subtitle, children }: CardProps) {
+function Card({ title, subtitle, children, delay }: CardProps) {
   return (
     <div
       className="card-enter relative p-6 border shadow-md"
@@ -15,6 +16,7 @@ function Card({ title, subtitle, children }: CardProps) {
         borderColor: '#A47C48',
         borderWidth: '1px',
         boxShadow: '2px 3px 8px rgba(33, 28, 25, 0.2)',
+        animationDelay: delay ? `${delay}ms` : undefined,
       }}
     >
       {/* 左上角花 */}
@@ -35,12 +37,14 @@ function Card({ title, subtitle, children }: CardProps) {
       </span>
 
 {/* 标题 */}
-      <h2
-        className="text-xl font-bold mb-1 tracking-wide"
-        style={{ fontFamily: "'Cinzel', 'Noto Serif SC', serif", color: '#302822' }}
-      >
-        {title}
-      </h2>
+      {title && (
+        <h2
+          className="text-xl font-bold mb-1 tracking-wide"
+          style={{ fontFamily: "'Cinzel', 'Noto Serif SC', serif", color: '#302822' }}
+        >
+          {title}
+        </h2>
+      )}
       {subtitle && (
         <p className="text-xs mb-4 tracking-widest uppercase" style={{ color: '#796A5B' }}>
           {subtitle}
