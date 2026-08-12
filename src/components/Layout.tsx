@@ -5,8 +5,7 @@ const navItems = [
   { to: '/games', label: '游戏', en: 'GAMES' },
   { to: '/family', label: '养家', en: 'FAMILY' },
   { to: '/live', label: '直播间', en: 'LIVE' },
-  { to: '/music', label: '音乐', en: 'MUSIC' },
-  { to: '/profile', label: '我的', en: 'PROFILE' },
+  { to: '/profile', label: '我的', en: 'ME' },
 ]
 
 function Layout() {
@@ -27,7 +26,7 @@ function Layout() {
           </p >
         </div>
         {/* 导航链接 */}
-        <nav className="flex justify-center gap-1 pb-3 px-4 overflow-x-auto">
+        <nav className="flex justify-center gap-4 pb-3 px-4 overflow-x-auto">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
