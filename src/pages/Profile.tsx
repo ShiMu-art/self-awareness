@@ -10,19 +10,18 @@ function Profile() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [tempName, setTempName] = useState('')
 
-  // 从缓存读，避免返回时闪烁
-  const cached = typeof window !== 'undefined' ? sessionStorage.getItem('sa_profiles') : null
-  if (cached) {
-    try {
-      const parsed = JSON.parse(cached)
-      if (Array.isArray(parsed)) {
-        setProfiles(parsed)
-        setLoading(false)
-      }
-    } catch {}
-  }
-
   useEffect(() => {
+    const cached = typeof window !== 'undefined' ? sessionStorage.getItem('sa_profiles') : null
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached)
+        if (Array.isArray(parsed)) {
+          setProfiles(parsed)
+          setLoading(false)
+        }
+      } catch {}
+    }
+
     getProfiles().then(data => {
       setProfiles(data)
       setLoading(false)
@@ -173,7 +172,7 @@ function Profile() {
         </div>
       </Card>
 
-      {/* 关注/粉丝/点赞（可跳转） */}
+      {/* 关注/粉丝/私信（可跳转） */}
       <Card delay={100}>
         <div className="flex justify-around text-center">
           <Link to="/profile/following" className="flex flex-col items-center group">
@@ -186,14 +185,28 @@ function Profile() {
             <span className="text-xs mt-1" style={{ color: 'var(--color-muted)' }}>粉丝</span>
           </Link>
           <div className="w-px" style={{ backgroundColor: 'var(--color-brass)', opacity: 0.3 }} />
-          <Link to="/profile/likes" className="flex flex-col items-center group">
+          <Link to="/profile/messages" className="flex flex-col items-center group">
             <span className="text-lg font-semibold" style={{ color: 'var(--color-ink)' }}>0</span>
-            <span className="text-xs mt-1" style={{ color: 'var(--color-muted)' }}>点赞</span>
+            <span className="text-xs mt-1" style={{ color: 'var(--color-muted)' }}>私信</span>
           </Link>
         </div>
       </Card>
-      {/* 收藏/评论/私信/帖子（跳转子页面） */}
+
+      {/* 点赞/收藏/评论（跳转子页面） */}
       <Card delay={200}>
+        <Link to="/profile/likes" className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="text-lg">♥</span>
+            <div>
+              <p className="text-sm font-medium" style={{ color: 'var(--color-ink)', fontFamily: "'Noto Serif SC', serif" }}>点赞</p >
+              <p className="text-xs" style={{ color: 'var(--color-muted)' }}>收到的赞与点赞记录</p >
+            </div>
+          </div>
+          <span className="text-sm" style={{ color: 'var(--color-brass)' }}>›</span>
+        </Link>
+      </Card>
+
+      <Card delay={300}>
         <Link to="/profile/favorites" className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-lg">★</span>
@@ -205,7 +218,8 @@ function Profile() {
           <span className="text-sm" style={{ color: 'var(--color-brass)' }}>›</span>
         </Link>
       </Card>
-      <Card delay={300}>
+
+      <Card delay={400}>
         <Link to="/profile/comments" className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-lg">✎</span>
@@ -217,31 +231,8 @@ function Profile() {
           <span className="text-sm" style={{ color: 'var(--color-brass)' }}>›</span>
         </Link>
       </Card>
-      <Card delay={400}>
-        <Link to="/profile/messages" className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="text-lg">✉</span>
-            <div>
-              <p className="text-sm font-medium" style={{ color: 'var(--color-ink)', fontFamily: "'Noto Serif SC', serif" }}>私信</p >
-              <p className="text-xs" style={{ color: 'var(--color-muted)' }}>收发的私信记录</p >
-            </div>
-          </div>
-          <span className="text-sm" style={{ color: 'var(--color-brass)' }}>›</span>
-        </Link>
-      </Card>
-      <Card delay={500}>
-        <Link to="/profile/posts" className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="text-lg">❦</span>
-            <div>
-              <p className="text-sm font-medium" style={{ color: 'var(--color-ink)', fontFamily: "'Noto Serif SC', serif" }}>帖子</p >
-              <p className="text-xs" style={{ color: 'var(--color-muted)' }}>发布过的所有帖子</p >
-            </div>
-          </div>
-          <span className="text-sm" style={{ color: 'var(--color-brass)' }}>›</span>
-        </Link>
-      </Card>
     </div>
   )
 }
+
 export default Profile

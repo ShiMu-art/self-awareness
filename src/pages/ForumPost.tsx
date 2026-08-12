@@ -1,43 +1,4 @@
-import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import Card from '../components/Card'
-import { supabase } from '../lib/supabase'
-
-interface Post {
-  id: string
-  title: string
-  content: string
-  category: string
-  created_at: string
-  profiles?: { display_name: string; avatar_url: string | null }
-}
-
-interface Comment {
-  id: string
-  content: string
-  created_at: string
-  profiles?: { display_name: string; avatar_url: string | null }
-}
-
-function ForumPost() {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const [post, setPost] = useState<Post | null>(null)
-  const [comments, setComments] = useState<Comment[]>([])
-  const [loading, setLoading] = useState(true)
-<<<<<<< HEAD
-  const [liked, setLiked] = useState(false)
-  const [favorited, setFavorited] = useState(false)
-  const [likeCount, setLikeCount] = useState(0)
-  const [commentText, setCommentText] = useState('')
-  const [submitting, setSubmitting] = useState(false)
-
-  const AI_ID = '6c25e9fe-a439-4913-99ea-47e86e05c1c5'
-=======
-  const [commentOpen, setCommentOpen] = useState(false)
-  const [commentText, setCommentText] = useState('')
-  const [submitting, setSubmitting] = useState(false)
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Card from '../components/Card'
 import { supabase } from '../lib/supabase'
@@ -126,6 +87,7 @@ function ForumPost() {
   }
 
   const handleLike = async () => {
+    if (!id) return
     if (liked) {
       await supabase.from('likes').delete().eq('post_id', id).eq('user_id', AI_ID)
       setLiked(false)
@@ -138,6 +100,7 @@ function ForumPost() {
   }
 
   const handleFavorite = async () => {
+    if (!id) return
     if (favorited) {
       await supabase.from('favorites').delete().eq('post_id', id).eq('user_id', AI_ID)
       setFavorited(false)
@@ -148,7 +111,7 @@ function ForumPost() {
   }
 
   const handleComment = async (): Promise<void> => {
-    if (!commentText.trim() || submitting) return
+    if (!id || !commentText.trim() || submitting) return
     setSubmitting(true)
     await supabase.from('comments').insert({
       post_id: id,
@@ -162,7 +125,11 @@ function ForumPost() {
 
   const formatDate = (dateStr: string) => {
     return new Date(dateStr).toLocaleDateString('zh-CN', {
-      year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     })
   }
 
@@ -191,7 +158,9 @@ function ForumPost() {
               ) : null}
             </div>
             <div>
-              <div className="text-sm" style={{ fontFamily: "'Noto Serif SC', serif", color: 'var(--color-ink)' }}>{post.profiles?.display_name || '匿名'}</div>
+              <div className="text-sm" style={{ fontFamily: "'Noto Serif SC', serif", color: 'var(--color-ink)' }}>
+                {post.profiles?.display_name || '匿名'}
+              </div>
               <div className="text-xs" style={{ color: 'var(--color-muted)' }}>{formatDate(post.created_at)}</div>
             </div>
           </div>
@@ -220,7 +189,6 @@ function ForumPost() {
         </div>
       </Card>
 
-      {/* 评论区 */}
       <div className="max-w-3xl mx-auto">
         <h3 className="text-sm font-medium" style={{ color: 'var(--color-ivory)' }}>评论</h3>
         {comments.length === 0 ? (
@@ -240,7 +208,6 @@ function ForumPost() {
         )}
       </div>
 
-      {/* 右下角固定羽毛笔按钮 */}
       <button
         onClick={() => setCommentOpen(true)}
         className="fixed bottom-6 right-6 w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-40"
@@ -249,7 +216,6 @@ function ForumPost() {
         <span className="text-xl" style={{ color: 'var(--color-coal)' }}>✒</span>
       </button>
 
-      {/* 评论弹出框 */}
       {commentOpen && (
         <div
           className="fixed inset-0 z-50 flex items-end justify-center pb-6 px-4"
@@ -309,84 +275,6 @@ function ForumPost() {
           </div>
         </div>
       )}
-    </div>
-  )
-}
-
-export default ForumPost
-          </div>
-        )}
-      </div>
-
-        {/* 右下角固定羽毛笔按钮 */}
-        <button
-          onClick={() => setCommentOpen(true)}
-          className="fixed bottom-6 right-6 w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-40"
-          style={{ backgroundColor: 'var(--color-brass)' }}
-        >
-          <span className="text-xl" style={{ color: 'var(--color-coal)' }}>✒</span>
-        </button>
-
-        {/* 评论弹出框 */}
-        {commentOpen && (
-          <div
-            className="fixed inset-0 z-50 flex items-end justify-center pb-6 px-4"
-            style={{ backgroundColor: 'rgba(33, 28, 25, 0.8)' }}
-            onClick={(e) => { if (e.target === e.currentTarget) setCommentOpen(false) }}
-          >
-            <div
-              className="w-full max-w-lg rounded-sm p-4 space-y-3"
-              style={{ backgroundColor: 'var(--color-walnut)', border: '1px solid rgba(164, 124, 72, 0.3)' }}
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-xs tracking-wider" style={{ color: 'var(--color-brass)', fontFamily: "'Cinzel', serif" }}>
-                  LEAVE A NOTE
-                </span>
-                <button
-                  onClick={() => setCommentOpen(false)}
-                  className="text-xs"
-                  style={{ color: 'var(--color-muted)' }}
-                >
-                  ✕
-                </button>
-              </div>
-              <textarea
-                value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
-                placeholder="写下你的想法..."
-                rows={3}
-                autoFocus
-                className="w-full bg-transparent border-b px-0 py-2 text-sm resize-none focus:outline-none"
-                style={{
-                  borderColor: 'rgba(164, 124, 72, 0.3)',
-                  color: 'var(--color-paper)',
-                  fontFamily: "'Noto Serif SC', serif",
-                }}
-                onFocus={(e) => { (e.target as HTMLTextAreaElement).style.borderColor = 'var(--color-brass)' }}
-                onBlur={(e) => { (e.target as HTMLTextAreaElement).style.borderColor = 'rgba(164, 124, 72, 0.3)' }}
-              />
-              <div className="flex justify-end">
-                <button
-                  onClick={async () => {
-                    await handleComment()
-                    setCommentOpen(false)
-                  }}
-                  disabled={!commentText.trim() || submitting}
-                  className="flex items-center gap-2 px-4 py-1.5 rounded-sm text-xs transition-opacity"
-                  style={{
-                    backgroundColor: 'var(--color-brass)',
-                    color: 'var(--color-coal)',
-                    opacity: commentText.trim() ? 1 : 0.5,
-                    fontFamily: "'Noto Serif SC', serif",
-                  }}
-                >
-                  <span>✒</span>
-                  <span>投递</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
     </div>
   )
 }
