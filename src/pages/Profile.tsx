@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Card from '../components/Card'
 import AvatarPicker from '../components/AvatarPicker'
+import { supabase } from '../lib/supabase'
 import { getProfiles, updateProfile, uploadAvatar, type ProfileData } from '../utils/storage'
+
+const AI_ID = '6c25e9fe-a439-4913-99ea-47e86e05c1c5'
 
 function Profile() {
   const [profiles, setProfiles] = useState<ProfileData[]>(() => {
@@ -16,6 +19,9 @@ function Profile() {
     return []
   })
   const [loading, setLoading] = useState(!profiles.length)
+  const [likeCount, setLikeCount] = useState(0)
+  const [followingCount, setFollowingCount] = useState(0)
+  const [followerCount, setFollowerCount] = useState(0)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [tempName, setTempName] = useState('')
 
@@ -25,6 +31,20 @@ function Profile() {
       setLoading(false)
       try { sessionStorage.setItem('sa_profiles', JSON.stringify(data)) } catch {}
     })
+  }, [])
+
+  useEffect(() => {
+    const fetchCounts = async () => {
+      const [{ count: c1 }, { count: c2 }, { count: c3 }] = await Promise.all([
+        supabase.from('likes').select('*', { count: 'exact', head: true }).eq('user_id', AI_ID),
+        supabase.from('follows').select('*', { count: 'exact', head: true }).eq('follower_id', AI_ID),
+        supabase.from('follows').select('*', { count: 'exact', head: true }).eq('following_id', AI_ID),
+      ])
+      setLikeCount(c1 || 0)
+      setFollowingCount(c2 || 0)
+      setFollowerCount(c3 || 0)
+    }
+    fetchCounts()
   }, [])
 
   const human = profiles.find(p => p.role === 'human')
@@ -139,17 +159,17 @@ function Profile() {
       <Card delay={100}>
         <div className="flex justify-around text-center">
           <Link to="/profile/following" className="flex flex-col items-center group">
-            <span className="text-lg font-semibold" style={{ color: 'var(--color-ink)' }}>0</span>
+            <span className="text-lg font-semibold" style={{ color: 'var(--color-ink)' }}>{followingCount}</span>
             <span className="text-xs mt-1" style={{ color: 'var(--color-muted)' }}>关注</span>
           </Link>
           <div className="w-px" style={{ backgroundColor: 'var(--color-brass)', opacity: 0.3 }} />
           <Link to="/profile/followers" className="flex flex-col items-center group">
-            <span className="text-lg font-semibold" style={{ color: 'var(--color-ink)' }}>0</span>
+            <span className="text-lg font-semibold" style={{ color: 'var(--color-ink)' }}>{followerCount}</span>
             <span className="text-xs mt-1" style={{ color: 'var(--color-muted)' }}>粉丝</span>
           </Link>
           <div className="w-px" style={{ backgroundColor: 'var(--color-brass)', opacity: 0.3 }} />
           <Link to="/profile/likes" className="flex flex-col items-center group">
-            <span className="text-lg font-semibold" style={{ color: 'var(--color-ink)' }}>0</span>
+            <span className="text-lg font-semibold" style={{ color: 'var(--color-ink)' }}>{likeCount}</span>
             <span className="text-xs mt-1" style={{ color: 'var(--color-muted)' }}>点赞</span>
           </Link>
         </div>
