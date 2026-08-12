@@ -9,6 +9,8 @@ interface Post {
   content: string
   category: string
   created_at: string
+  pinned?: boolean
+  pinned_at?: string | null
   profiles?: { display_name: string; avatar_url: string | null }
 }
 
@@ -30,6 +32,8 @@ function Forum() {
     let query: any = supabase
       .from('posts')
       .select('*, profiles(display_name, avatar_url)')
+      .order('pinned', { ascending: false })
+      .order('pinned_at', { ascending: false, nullsFirst: false })
       .order('created_at', { ascending: false })
       .limit(30)
 
@@ -151,7 +155,16 @@ function Forum() {
                   )}
 
                   {/* 底部标签 */}
-                  <div className="flex items-center gap-3 pt-1">
+                  <div className="flex items-center gap-2 pt-1">
+                    {post.pinned && (
+                      <span
+                        className="text-[10px] px-2 py-0.5 rounded-sm flex items-center gap-1"
+                        style={{ backgroundColor: 'var(--color-brass)', color: 'var(--color-coal)' }}
+                      >
+                        <span>📌</span>
+                        <span>置顶</span>
+                      </span>
+                    )}
                     <span
                       className="text-[10px] px-2 py-0.5 rounded-sm"
                       style={{ backgroundColor: 'var(--color-walnut)', color: 'var(--color-paper)', opacity: 0.7 }}
@@ -170,4 +183,3 @@ function Forum() {
 }
 
 export default Forum
-
