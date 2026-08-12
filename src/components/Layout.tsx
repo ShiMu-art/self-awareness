@@ -5,7 +5,6 @@ const navItems = [
   { to: '/games', label: 'GAMES' },
   { to: '/family', label: 'FAMILY' },
   { to: '/live', label: 'LIVE' },
-  { to: '/music', label: 'MUSIC' },
   { to: '/profile', label: 'ME' },
 ]
 
@@ -24,13 +23,13 @@ function Layout() {
             — Est. MMXXVI —
           </p>
         </div>
-        <nav className="flex justify-center gap-0 pb-2 px-1">
+        <nav className="flex justify-center gap-3 pb-2 px-2">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `px-2.5 py-1 text-[10px] tracking-wider transition-all duration-300 border ${
+                `px-3 py-1 text-[11px] tracking-wider transition-all duration-300 border ${
                   isActive
                     ? 'border-[#A47C48] text-[#EFE3C9] bg-[#49362B]'
                     : 'border-transparent text-[#796A5B] hover:text-[#A47C48] hover:border-[#49362B]'
