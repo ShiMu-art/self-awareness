@@ -25,14 +25,17 @@ export default function ProfileLikes() {
         .select('post_id, created_at')
         .eq('user_id', AI_ID)
         .order('created_at', { ascending: false })
-      if (!likes || likes.length === 0) { setLoading(false); return }
+      if (!likes || likes.length === 0) {
+        setLoading(false)
+        return
+      }
       const postIds = likes.map((l: any) => l.post_id)
       const { data: postsData } = await supabase
         .from('posts')
         .select('id, title, content, created_at, profiles(display_name)')
         .in('id', postIds)
       const map = new Map((postsData || []).map((p: any) => [p.id, p]))
-      const ordered = postIds.map(id => map.get(id)).filter(Boolean) as Post[]
+      const ordered = postIds.map((id) => map.get(id)).filter(Boolean) as Post[]
       setPosts(ordered)
       setLoading(false)
     })()

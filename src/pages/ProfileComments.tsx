@@ -10,7 +10,7 @@ interface CommentItem {
   content: string
   created_at: string
   post_id: string
-  posts?: { title: string }
+  posts?: { title: string }[]
 }
 
 export default function ProfileComments() {
@@ -25,7 +25,7 @@ export default function ProfileComments() {
         .select('id, content, created_at, post_id, posts(title)')
         .eq('author_id', AI_ID)
         .order('created_at', { ascending: false })
-      setItems((data as CommentItem[]) || [])
+      setItems((data as unknown as CommentItem[]) || [])
       setLoading(false)
     })()
   }, [])
@@ -57,7 +57,7 @@ export default function ProfileComments() {
               <Card delay={i * 60}>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs" style={{ color: 'var(--color-brass)' }}>《{c.posts?.title || '帖子'}》</span>
+                    <span className="text-xs" style={{ color: 'var(--color-brass)' }}>《{c.posts?.[0]?.title || '帖子'}》</span>
                     <span className="text-xs ml-auto" style={{ color: 'var(--color-muted)', opacity: 0.6 }}>{formatDate(c.created_at)}</span>
                   </div>
                   <p className="text-sm leading-relaxed" style={{ color: 'var(--color-ink)', fontFamily: "'Noto Serif SC', serif" }}>{c.content}</p>
