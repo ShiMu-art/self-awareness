@@ -10,12 +10,43 @@ function Profile() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [tempName, setTempName] = useState('')
 
+  // 从缓存读，避免返回时闪烁
+  const cached = typeof window !== 'undefined' ? sessionStorage.getItem('sa_profiles') : null
+  if (cached) {
+    try {
+      const parsed = JSON.parse(cached)
+      if (Array.isArray(parsed)) {
+        setProfiles(parsed)
+        setLoading(false)
+      }
+    } catch {}
+  }
+
   useEffect(() => {
     getProfiles().then(data => {
       setProfiles(data)
       setLoading(false)
+      try {
+        sessionStorage.setItem('sa_profiles', JSON.stringify(data))
+      } catch {}
     })
   }, [])
+
+  if (loading) return (
+    <div className="space-y-6 animate-pulse">
+      <div className="text-center mb-8">
+        <div className="h-6 w-32 bg-[var(--color-walnut)] rounded mx-auto opacity-40"></div>
+        <div className="h-3 w-24 bg-[var(--color-walnut)] rounded mx-auto mt-2 opacity-30"></div>
+      </div>
+      <div className="rounded border border-[var(--color-walnut)] p-6 opacity-30">
+        <div className="flex items-center justify-center gap-6">
+          <div className="w-16 h-16 rounded-full bg-[var(--color-walnut)]"></div>
+          <div className="w-8 h-12 bg-[var(--color-walnut)] rounded"></div>
+          <div className="w-16 h-16 rounded-full bg-[var(--color-walnut)]"></div>
+        </div>
+      </div>
+    </div>
+  )
 
   const human = profiles.find(p => p.role === 'human')
   const ai = profiles.find(p => p.role === 'ai')
