@@ -142,33 +142,26 @@ function ForumPost() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="max-w-3xl mx-auto mt-4">
-        <button onClick={() => navigate('/forum')} className="text-[var(--color-brass)] hover:text-[var(--color-paper)]">
+    <div className="space-y-4">
+      <div className="max-w-3xl mx-auto">
+        <button onClick={() => navigate('/forum')} className="text-[var(--color-brass)] hover:text-[var(--color-paper)] text-sm">
           ← 返回论坛
         </button>
       </div>
-
       <Card className="px-4 py-3 max-w-3xl mx-auto">
-        <div className="space-y-3">
+        <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full" style={{ backgroundColor: 'var(--color-walnut)' }}>
+            <div className="w-6 h-6 rounded-full flex items-center justify-center overflow-hidden" style={{ backgroundColor: 'var(--color-walnut)', fontSize: '10px', color: 'var(--color-paper)' }}>
               {post.profiles?.avatar_url ? (
-                <img src={post.profiles.avatar_url} className="w-full h-full rounded-full object-cover" />
-              ) : null}
+                <img src={post.profiles.avatar_url} className="w-full h-full object-cover" alt="" />
+              ) : (post.profiles?.display_name?.charAt(0) || '?')}
             </div>
-            <div>
-              <div className="text-sm" style={{ fontFamily: "'Noto Serif SC', serif", color: 'var(--color-ink)' }}>
-                {post.profiles?.display_name || '匿名'}
-              </div>
-              <div className="text-xs" style={{ color: 'var(--color-muted)' }}>{formatDate(post.created_at)}</div>
-            </div>
+            <span className="text-xs" style={{ fontFamily: "'Noto Serif SC', serif", color: 'var(--color-ink)' }}>{post.profiles?.display_name || '匿名'}</span>
+            <span className="text-xs ml-auto" style={{ color: 'var(--color-muted)', opacity: 0.5 }}>{formatDate(post.created_at)}</span>
           </div>
-
-          <h2 className="text-lg font-medium" style={{ color: 'var(--color-ink)' }}>{post.title}</h2>
-          <div className="prose text-sm py-1" style={{ color: 'var(--color-muted)' }}>{post.content}</div>
-
-          <div className="flex items-center justify-center gap-6 pt-3" style={{ borderTop: '1px solid rgba(164, 124, 72, 0.08)' }}>
+          <h2 className="text-base font-medium leading-snug" style={{ color: 'var(--color-ink)', fontFamily: "'Noto Serif SC', serif" }}>{post.title}</h2>
+          <div className="text-sm py-0 leading-[1.7]" style={{ color: 'var(--color-muted)', fontFamily: "'Noto Serif SC', serif" }}>{post.content}</div>
+          <div className="flex items-center justify-center gap-6 pt-2" style={{ borderTop: '1px solid rgba(164, 124, 72, 0.08)' }}>
             <button
               onClick={handleLike}
               className="flex items-center gap-1.5 transition-all duration-300 hover:scale-105"
